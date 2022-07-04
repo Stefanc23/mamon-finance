@@ -23,6 +23,17 @@ export default function Document() {
           href='/favicon-16x16.png'
         />
         <link rel='manifest' href='/site.webmanifest' />
+
+        <link rel='preconnect' href='https://fonts.googleapis.com' />
+        <link
+          rel='preconnect'
+          href='https://fonts.gstatic.com'
+          crossOrigin='true'
+        />
+        <link
+          href='https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap'
+          rel='stylesheet'
+        />
       </Head>
       <body className='bg-dark text-white'>
         <Main />
