@@ -24,7 +24,7 @@ const SignIn: NextPage = ({ providers }: any) => {
           <div key={provider.name}>
             <button
               className='flex p-3 font-medium bg-white text-gray-700 text-sm rounded hover:shadow-md hover:shadow-secondary focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out'
-              onClick={() => signIn(provider.id, { callbackUrl: '/' })}
+              onClick={() => signIn(provider.id, { callbackUrl: '/dashboard' })}
             >
               <Image
                 src='https://img.icons8.com/color/48/000000/google-logo.png'
