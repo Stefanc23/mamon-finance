@@ -38,23 +38,13 @@ const Home: NextPage = ({ greeting, link, linkText }: any) => {
 
 export async function getServerSideProps(context: any) {
   const session = await getSession(context);
-  const greetings = [
-    'Hello',
-    'Bonjour',
-    'Hola',
-    'Ciao',
-    'こんにちは',
-    '안녕하세요',
-    '你好',
-  ];
+  const greetings = ['Hello', 'Bonjour', 'Hola', 'Ciao', 'こんにちは', '안녕하세요', '你好'];
 
   return {
     props: {
       session,
       greeting: session
-        ? `${greetings[Math.floor(Math.random() * greetings.length)]} ${
-            session.user?.name?.split(' ')[0]
-          }!`
+        ? `${greetings[Math.floor(Math.random() * greetings.length)]} ${session.user!.name!.split(' ')[0]}!`
         : 'Start Managing Your Finances Now!',
       link: session ? '/dashboard' : '/auth/signin',
       linkText: session ? 'Go to Dashboard' : 'Get Started',

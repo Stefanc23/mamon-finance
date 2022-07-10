@@ -11,13 +11,7 @@ const SignIn: NextPage = ({ providers }: any) => {
         <title>Mamon Finance App | Sign In</title>
       </Head>
       <Link href='/'>
-        <Image
-          className='cursor-pointer'
-          src='/logo.png'
-          alt='Mamon Finance'
-          width={128}
-          height={128}
-        />
+        <Image className='cursor-pointer' src='/logo.png' alt='Mamon Finance' width={128} height={128} />
       </Link>
       <div>
         {Object.values(providers).map((provider: any) => (
