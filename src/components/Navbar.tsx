@@ -4,7 +4,7 @@ import { useState } from 'react';
 
 import OutsideAction from './OutsideAction';
 
-const Navbar = ({ avatar }: { avatar: string }) => {
+const Navbar = ({ avatar, balance }: { avatar: string; balance: number }) => {
   const [expanded, setExpanded] = useState(false);
 
   const toggleMenu = () => {
@@ -15,9 +15,12 @@ const Navbar = ({ avatar }: { avatar: string }) => {
     <header>
       <nav className='relative min-w-screen px-8 py-4 flex justify-between items-center'>
         Dashboard
-        <button className='flex items-center' onClick={toggleMenu}>
-          <Image className='rounded-full' src={avatar} alt='profile picture' width={36} height={36} />
-        </button>
+        <div className='flex items-center'>
+          Balance: Rp {balance.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+          <button className='ml-8 flex items-center' onClick={toggleMenu}>
+            <Image className='rounded-full' src={avatar} alt='profile picture' width={36} height={36} />
+          </button>
+        </div>
         {expanded && (
           <ul className='absolute right-8 -bottom-16 w-24 bg-gray-800 rounded-sm text-sm text-white'>
             <OutsideAction action={toggleMenu}>

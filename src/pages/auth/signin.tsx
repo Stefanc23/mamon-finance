@@ -6,7 +6,7 @@ import { getProviders, signIn } from 'next-auth/react';
 
 const SignIn: NextPage = ({ providers }: any) => {
   return (
-    <div className='h-screen container flex flex-col justify-center items-center'>
+    <div className='h-screen flex flex-col justify-center items-center'>
       <Head>
         <title>Mamon Finance App | Sign In</title>
       </Head>
