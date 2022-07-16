@@ -13,7 +13,8 @@ import {
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import { getSession, useSession } from 'next-auth/react';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
 
 import DetailsChart from '../components/DetailsChart';
 import LoadingOverlay from '../components/LoadingOverlay';
@@ -28,11 +29,13 @@ const Dashboard: NextPage = () => {
   const [transactions, setTransactions] = useState<QueryDocumentSnapshot<DocumentData>[]>([]);
   const [balance, setBalance] = useState<number>(0);
   const [loading, setLoading] = useState(false);
-  const [selectedCategories, setSelectedCategories] = useState(incomeCategories);
-  const typeInputRef = useRef<HTMLSelectElement>(null);
-  const categoryInputRef = useRef<HTMLSelectElement>(null);
-  const amountInputRef = useRef<HTMLInputElement>(null);
-  const dateInputRef = useRef<HTMLInputElement>(null);
+  const {
+    register,
+    watch,
+    formState: { errors },
+    handleSubmit,
+  } = useForm();
+  const watchType = watch('type', 'Income');
 
   useEffect(() => {
     setLoading(true);
@@ -52,27 +55,17 @@ const Dashboard: NextPage = () => {
     );
   }, [session]);
 
-  const changeSelectedCategories = () => {
-    setSelectedCategories(typeInputRef.current!.value === 'Income' ? incomeCategories : expenseCategories);
-  };
-
-  const addTransaction = async () => {
+  const addTransaction = async (data: any) => {
     if (loading) return;
     setLoading(true);
 
     await addDoc(collection(db, 'transactions'), {
       user: session!.user!.email,
-      type: typeInputRef.current!.value,
-      category: categoryInputRef.current!.value,
-      amount: parseFloat(amountInputRef.current!.value),
-      date: dateInputRef.current!.value,
+      type: data.type,
+      category: data.category,
+      amount: parseFloat(data.amount),
+      date: data.date,
     });
-
-    typeInputRef.current!.value = 'Income';
-    setSelectedCategories(incomeCategories);
-    categoryInputRef.current!.value = 'Business';
-    amountInputRef.current!.value = '';
-    dateInputRef.current!.value = new Date().toISOString().split('T')[0];
 
     setLoading(false);
   };
@@ -106,18 +99,16 @@ const Dashboard: NextPage = () => {
           <div className='w-full p-4 bg-gray-800 text-gray-200 rounded-sm shadow-sm'>
             <div className='w-full'>
               Add Transaction
-              <form className='mt-6'>
+              <form className='mt-6' onSubmit={handleSubmit(addTransaction)}>
                 <div className='flex flex-wrap -mx-3 mb-3'>
                   <div className='flex flex-col w-full md:w-1/2 px-3 mb-6 md:mb-0'>
                     <label className='text-xs' htmlFor='type'>
                       Type
                     </label>
                     <select
-                      ref={typeInputRef}
                       className='text-gray-200 bg-gray-600 mt-2 p-1 text-xs rounded-sm h-9'
-                      name='type'
                       id='type'
-                      onChange={changeSelectedCategories}
+                      {...register('type', { required: true })}
                     >
                       <option value='Income'>Income</option>
                       <option value='Expense'>Expense</option>
@@ -128,12 +119,11 @@ const Dashboard: NextPage = () => {
                       Category
                     </label>
                     <select
-                      ref={categoryInputRef}
                       className='text-gray-200 bg-gray-600 mt-2 p-1 text-xs rounded-sm h-9'
-                      name='category'
                       id='category'
+                      {...register('category', { required: true })}
                     >
-                      {selectedCategories.map(({ type }) => (
+                      {(watchType === 'Income' ? incomeCategories : expenseCategories).map(({ type }) => (
                         <option key={type} value={type}>
                           {type}
                         </option>
@@ -147,33 +137,31 @@ const Dashboard: NextPage = () => {
                       Amount
                     </label>
                     <input
-                      ref={amountInputRef}
                       type='number'
                       className='text-gray-200 bg-gray-600 mt-2 p-1 text-xs rounded-sm h-9'
-                      name='amount'
-                      id='amount'
                       placeholder='Amount'
-                      min='1'
+                      id='amount'
+                      {...register('amount', { required: true, min: 1 })}
                     />
+                    <p className='mt-1 h-2 text-red-500 text-xs'>{errors.amount && 'Amount is required'}</p>
                   </div>
                   <div className='flex flex-col w-full md:w-1/2 px-3 mb-6 md:mb-0'>
                     <label className='text-xs' htmlFor='date'>
                       Date
                     </label>
                     <input
-                      ref={dateInputRef}
                       type='date'
                       className='text-gray-200 bg-gray-600 mt-2 p-1 text-xs rounded-sm h-9'
-                      name='date'
                       id='date'
                       defaultValue={new Date().toISOString().split('T')[0]}
+                      {...register('date', { required: true })}
                     />
+                    <p className='mt-1 h-2 text-red-500 text-xs'>{errors.date && 'Date is required'}</p>
                   </div>
                 </div>
                 <button
-                  type='button'
+                  type='submit'
                   className='w-full mt-2 py-2 bg-gray-600 rounded-sm text-sm hover:shadow-sm hover:shadow-secondary focus:shadow-sm focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out'
-                  onClick={addTransaction}
                 >
                   Add
                 </button>
