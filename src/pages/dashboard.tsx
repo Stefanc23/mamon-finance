@@ -15,6 +15,7 @@ import Head from 'next/head';
 import { getSession, useSession } from 'next-auth/react';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import * as XLSX from 'xlsx';
 
 import DetailsChart from '../components/DetailsChart';
 import LoadingOverlay from '../components/LoadingOverlay';
@@ -77,6 +78,26 @@ const Dashboard: NextPage = () => {
     await deleteDoc(doc(db, 'transactions', id));
 
     setLoading(false);
+  };
+
+  const exportTransactions = () => {
+    const sheetData: Array<Object> = [];
+
+    transactions.forEach((transaction) => {
+      sheetData.push({
+        Type: transaction.data().type,
+        Category: transaction.data().category,
+        Amount: transaction.data().amount,
+        Date: transaction.data().date,
+      });
+    });
+
+    const wb = XLSX.utils.book_new();
+    const ws = XLSX.utils.json_to_sheet(sheetData);
+
+    XLSX.utils.book_append_sheet(wb, ws, 'Transactions');
+
+    XLSX.writeFile(wb, 'transactions.xlsx');
   };
 
   return (
@@ -168,7 +189,16 @@ const Dashboard: NextPage = () => {
               </form>
             </div>
             <div className='w-full mt-6'>
-              Transactions
+              <div className='flex justify-between items-center'>
+                Transactions
+                <button
+                  type='button'
+                  className='cursor-pointer flex px-4 py-2 bg-gray-600 text-xs rounded hover:shadow-sm hover:shadow-secondary focus:shadow-sm focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out'
+                  onClick={exportTransactions}
+                >
+                  Export
+                </button>
+              </div>
               <TransactionList transactions={transactions} deleteTransaction={deleteTransaction} />
             </div>
           </div>
