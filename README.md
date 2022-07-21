@@ -1,23 +1,45 @@
-# Next.js + Tailwind CSS Example
+# Mamon Finance (Cash Flow Tracker App)
 
-This example shows how to use [Tailwind CSS](https://tailwindcss.com/) [(v3.0)](https://tailwindcss.com/blog/tailwindcss-v3) with Next.js. It follows the steps outlined in the official [Tailwind docs](https://tailwindcss.com/docs/guides/nextjs).
+DEMO: https://mamon-finance.vercel.app/
 
-## Deploy your own
+## Tech stack
 
-Deploy the example using [Vercel](https://vercel.com?utm_source=github&utm_medium=readme&utm_campaign=next-example) or preview live with [StackBlitz](https://stackblitz.com/github/vercel/next.js/tree/canary/examples/with-tailwindcss)
+1. [Next JS](https://nextjs.org/)
+2. [Tailwind CSS](https://tailwindcss.com/)
+3. [Next Auth](https://next-auth.js.org/)
+4. [Firebase Firestore](https://firebase.google.com/products/firestore/)
+5. [React Form Hook](https://react-hook-form.com/)
+6. [React Chart JS](https://react-chartjs-2.js.org/)
+7. [SheetJS](https://sheetjs.com/)
+8. [Vercel](https://vercel.com/)
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/git/external?repository-url=https://github.com/vercel/next.js/tree/canary/examples/with-tailwindcss&project-name=with-tailwindcss&repository-name=with-tailwindcss)
+## Features
 
-## How to use
+1. Login with Google
+2. Realtime Data Update
+3. Add new income or expense
+4. View income or expense
+5. Delete existing income or expense
+6. Export income and expense data to XLSX
+7. View cash flow summary chart
+8. View income detail and expense detail charts
 
-Execute [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app) with [npm](https://docs.npmjs.com/cli/init), [Yarn](https://yarnpkg.com/lang/en/docs/cli/create/), or [pnpm](https://pnpm.io) to bootstrap the example:
+## How to run the web app locally
 
-```bash
-npx create-next-app --example with-tailwindcss with-tailwindcss-app
-# or
-yarn create next-app --example with-tailwindcss with-tailwindcss-app
-# or
-pnpm create next-app --example with-tailwindcss with-tailwindcss-app
-```
+1. Make sure to have the latest version of node installed. You can download it from here https://nodejs.org/en/download/
+2. Download and install git if you haven't already. You can download it from here https://git-scm.com/downloads
+3. Clone or download the project.
+4. Run `npm install -g yarn` to install yarn dependency manager.
+5. Create a .env file on the root of the project directory based on the contents of .env.example and fill the environment variables.
+6. From the project directory in your local machine, using git bash run:
 
-Deploy it to the cloud with [Vercel](https://vercel.com/new?utm_source=github&utm_medium=readme&utm_campaign=next-example) ([Documentation](https://nextjs.org/docs/deployment)).
+    ### `yarn`
+    to install all required dependencies, then run
+
+    ### `yarn dev`
+    to start a local development server on localhost:3000, or use
+    
+## References
+
+- React Chart JS: https://www.youtube.com/watch?v=NnUFOWR_V4Y
+- Next Auth and Firebase Firestore: https://www.youtube.com/watch?v=a6Xs2Ir40OI
